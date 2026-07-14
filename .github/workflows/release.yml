@@ -1,0 +1,67 @@
+name: Build Windows portable EXE
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    env:
+      CARGO_BUILD_JOBS: "2"
+      CARGO_INCREMENTAL: "0"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Frontend checks
+        run: npm run typecheck
+
+      - name: Rust checks
+        shell: pwsh
+        run: |
+          cargo fmt --manifest-path .\src-tauri\Cargo.toml -- --check
+          cargo test --manifest-path .\src-tauri\Cargo.toml -j 2
+          cargo clippy --manifest-path .\src-tauri\Cargo.toml --all-targets -j 2 -- -D warnings
+
+      - name: Build raw Tauri EXE
+        run: npm run tauri -- build --no-bundle
+
+      - name: Stage portable release
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path release -Force | Out-Null
+          Copy-Item .\src-tauri\target\release\video-management-assistant.exe .\release\视频管理助手.exe
+          $hash = Get-FileHash .\release\视频管理助手.exe -Algorithm SHA256
+          "$($hash.Hash)  视频管理助手.exe" | Set-Content .\release\SHA256SUMS.txt -Encoding UTF8
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 视频管理助手-windows-x64
+          path: release/*
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            release/视频管理助手.exe
+            release/SHA256SUMS.txt

@@ -1,0 +1,92 @@
+{
+  "template_version": 2,
+  "template_name": "视频项目标准目录",
+  "root_pattern": "{date}_{project_name}",
+  "folders": [
+    {
+      "name": "1.工程文件"
+    },
+    {
+      "name": "2.原始素材",
+      "children": [
+        {
+          "name": "视频"
+        },
+        {
+          "name": "图片"
+        },
+        {
+          "name": "音频"
+        }
+      ]
+    },
+    {
+      "name": "3.素材",
+      "children": [
+        {
+          "name": "视频"
+        },
+        {
+          "name": "图片"
+        },
+        {
+          "name": "文档"
+        },
+        {
+          "name": "音乐"
+        },
+        {
+          "name": "音效"
+        }
+      ]
+    },
+    {
+      "name": "4.字幕"
+    },
+    {
+      "name": "5.通用素材",
+      "children": [
+        {
+          "name": "片头片尾"
+        },
+        {
+          "name": "logo"
+        }
+      ]
+    },
+    {
+      "name": "6.封面"
+    },
+    {
+      "name": "7.导出",
+      "children": [
+        {
+          "name": "小样"
+        },
+        {
+          "name": "成片"
+        }
+      ]
+    },
+    {
+      "name": "8.归档"
+    }
+  ],
+  "naming_rules": [
+    {
+      "applies_to": "2.原始素材/视频",
+      "rule": "时间_机型_机位",
+      "create_as_folder": false
+    },
+    {
+      "applies_to": "7.导出/小样",
+      "rule": "时间_片名_导出人_版本数",
+      "create_as_folder": false
+    },
+    {
+      "applies_to": "7.导出/成片",
+      "rule": "时间_片名_分辨率_格式_备注_导出人_版本数",
+      "create_as_folder": false
+    }
+  ]
+}

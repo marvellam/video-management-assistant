@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#d2d2d2" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src ipc: http://ipc.localhost; object-src 'none'; base-uri 'self'; form-action 'none'"
+    />
+    <title>视频管理助手</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div class="app-frame">
+      <header id="titleBar" class="title-bar" data-tauri-drag-region>
+        <div class="brand" data-tauri-drag-region>视频管理助手</div>
+        <div class="window-actions">
+          <button id="minimizeButton" class="window-button" type="button" aria-label="最小化">
+            <span class="minimize-icon" aria-hidden="true"></span>
+          </button>
+          <button id="closeButton" class="window-button close-button" type="button" aria-label="关闭">
+            <span class="close-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="form-card" aria-labelledby="formTitle">
+          <div class="intro">
+            <span class="intro-line" aria-hidden="true"></span>
+            <h1 id="formTitle">给项目一个<br />清晰的开始</h1>
+            <p>建立统一目录，让素材、工程与交付从第一天就保持秩序。</p>
+          </div>
+
+          <form id="projectForm" novalidate>
+            <div class="field-group">
+              <label for="projectName">项目名称</label>
+              <input id="projectName" type="text" autocomplete="off" maxlength="80" />
+              <p id="nameError" class="field-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field-row">
+              <div class="field-group date-field">
+                <label for="projectDate">日期</label>
+                <input id="projectDate" type="text" inputmode="numeric" maxlength="8" />
+                <p id="dateError" class="field-error" aria-live="polite"></p>
+              </div>
+
+              <div class="field-group location-field">
+                <label for="chooseDirectory">保存位置</label>
+                <div class="location-control">
+                  <input id="targetRoot" type="text" readonly placeholder="请选择" />
+                  <span class="location-divider" aria-hidden="true"></span>
+                  <button id="chooseDirectory" type="button">选择</button>
+                </div>
+                <p class="field-error" aria-hidden="true"></p>
+              </div>
+            </div>
+
+            <label class="check-control">
+              <input id="openAfter" type="checkbox" checked />
+              <span class="check-box" aria-hidden="true">
+                <svg viewBox="0 0 16 16"><path d="M3 8.2 6.4 11.5 13 4.5" /></svg>
+              </span>
+              <span>生成后打开项目目录</span>
+            </label>
+
+            <div class="form-actions">
+              <button id="generateButton" class="primary-button" type="submit">生成目录</button>
+              <p id="statusText" class="status-text" role="status" aria-live="polite">
+                不会修改已有内容
+              </p>
+            </div>
+          </form>
+        </section>
+
+        <section class="preview-card" aria-labelledby="previewTitle">
+          <span class="preview-label">生成预览</span>
+          <h2 id="previewTitle">20260714_项目名称</h2>
+          <div class="preview-divider" aria-hidden="true"></div>
+          <pre id="treePreview" class="tree-preview" aria-label="目录结构预览"></pre>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
