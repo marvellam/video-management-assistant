@@ -73,6 +73,7 @@
 - v1.0.0 公开资产已从无登录的 `releases/latest/download` 地址重新下载，EXE 与 `SHA256SUMS.txt` 的 SHA-256 一致，下载版标题、产品名和版本均正确。
 - GitHub 会把纯中文 Release 文件名规范化为 `default.exe`；正式发布资产因此固定为 `Video-Management-Assistant.exe`，Agent 校验后在桌面保存为 `视频管理助手.exe`。
 - 后续 GitHub 构建已加入 Rust 缓存并改为4并发；本机构建仍保持2并发，避免当前机器内存再次被打满。
+- v1.0.0 Release 链接已通过飞书发送给当前用户，并完成消息内容回读验证。
 
 ## 当前状态
 
