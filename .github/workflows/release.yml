@@ -13,7 +13,7 @@ jobs:
   windows:
     runs-on: windows-latest
     env:
-      CARGO_BUILD_JOBS: "2"
+      CARGO_BUILD_JOBS: "4"
       CARGO_INCREMENTAL: "0"
 
     steps:
@@ -28,6 +28,10 @@ jobs:
         with:
           components: rustfmt, clippy
 
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: ./src-tauri -> target
+
       - name: Install frontend dependencies
         run: npm ci
 
@@ -38,8 +42,8 @@ jobs:
         shell: pwsh
         run: |
           cargo fmt --manifest-path .\src-tauri\Cargo.toml -- --check
-          cargo test --manifest-path .\src-tauri\Cargo.toml -j 2
-          cargo clippy --manifest-path .\src-tauri\Cargo.toml --all-targets -j 2 -- -D warnings
+          cargo test --manifest-path .\src-tauri\Cargo.toml -j 4
+          cargo clippy --manifest-path .\src-tauri\Cargo.toml --all-targets -j 4 -- -D warnings
 
       - name: Build raw Tauri EXE
         run: npm run tauri -- build --no-bundle
@@ -48,9 +52,9 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path release -Force | Out-Null
-          Copy-Item .\src-tauri\target\release\video-management-assistant.exe .\release\视频管理助手.exe
-          $hash = Get-FileHash .\release\视频管理助手.exe -Algorithm SHA256
-          "$($hash.Hash)  视频管理助手.exe" | Set-Content .\release\SHA256SUMS.txt -Encoding UTF8
+          Copy-Item .\src-tauri\target\release\video-management-assistant.exe .\release\Video-Management-Assistant.exe
+          $hash = Get-FileHash .\release\Video-Management-Assistant.exe -Algorithm SHA256
+          "$($hash.Hash)  Video-Management-Assistant.exe" | Set-Content .\release\SHA256SUMS.txt -Encoding UTF8
 
       - uses: actions/upload-artifact@v4
         with:
@@ -63,5 +67,5 @@ jobs:
         with:
           generate_release_notes: true
           files: |
-            release/视频管理助手.exe
+            release/Video-Management-Assistant.exe
             release/SHA256SUMS.txt

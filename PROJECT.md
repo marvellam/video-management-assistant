@@ -68,18 +68,24 @@
 - 真实 EXE 桌面验收通过：原生目录选择器显示完整路径，第一次生成显示“新建21个 · 已有0个”并自动打开资源管理器；第二次显示“新建0个 · 已有21个”。
 - 正式 EXE 约9.04MB，版本1.0.0，图标 A 已嵌入；当前未签名。
 - 首次 release 单线程构建约14分56秒；依赖缓存后2并发重建约2分10秒。构建脚本默认2并发以兼顾速度与内存。
+- Tauri 窗口权限已显式加入关闭、最小化、切换最大化和拖动；公开下载版通过 Windows 辅助功能树精确验收，最小化后系统状态为 minimized，关闭后进程退出。
+- GitHub Actions 在全新 Windows runner 上完成 TypeScript 检查、4 个 Rust 测试、fmt、clippy 和 release 构建，工作流成功。
+- v1.0.0 公开资产已从无登录的 `releases/latest/download` 地址重新下载，EXE 与 `SHA256SUMS.txt` 的 SHA-256 一致，下载版标题、产品名和版本均正确。
+- GitHub 会把纯中文 Release 文件名规范化为 `default.exe`；正式发布资产因此固定为 `Video-Management-Assistant.exe`，Agent 校验后在桌面保存为 `视频管理助手.exe`。
+- 后续 GitHub 构建已加入 Rust 缓存并改为4并发；本机构建仍保持2并发，避免当前机器内存再次被打满。
 
 ## 当前状态
 
-V2.0 Windows 便携 EXE 已完成并通过功能、界面、重复运行和自动打开目录的真实桌面验收。正式名称现调整为“视频管理助手”，待完成窗口控制修复后的最终回归与 GitHub 发布。
+V2.0 Windows 便携 EXE 已完成。正式名称为“视频管理助手”，目录生成、重复运行、自动打开目录、最小化、关闭和公开下载校验均已通过。
 
-GitHub Actions 单文件发布工作流已经准备完成，但当前目录尚未初始化为独立 Git 仓库，也尚未创建/推送 GitHub 远程仓库。
+公开仓库：`https://github.com/marvellam/video-management-assistant`
+
+v1.0.0 Release：`https://github.com/marvellam/video-management-assistant/releases/tag/v1.0.0`
 
 ## 待确认
 
 - 在团队实际 NAS 目录上试建一个测试项目，确认账号权限和路径长度。
 - 收集一位新同事对 V2.0 EXE 的首次运行、清晰度和界面文案反馈。
-- 初始化独立 Git 仓库并创建 GitHub 仓库后，使用 `v1.0.0` 标签验证自动 Release。
 - 等出现真实 macOS 使用需求后，再加入 `.app` 构建与签名决策。
 
 ## 风险与边界

@@ -5,16 +5,16 @@
 把下面这句话发给具有 GitHub 下载和本地文件权限的 Agent：
 
 ```text
-请从 GitHub 仓库 marvellam/video-management-assistant 的最新 Release 下载“视频管理助手.exe”和 SHA256SUMS.txt，校验 SHA-256 后把 EXE 保存到当前用户桌面；如果桌面已有同名文件，先比较版本和哈希，不要静默覆盖，不要自动运行。
+请从 GitHub 仓库 marvellam/video-management-assistant 的最新 Release 下载“Video-Management-Assistant.exe”和 SHA256SUMS.txt，校验 SHA-256 后以“视频管理助手.exe”保存到当前用户桌面；如果桌面已有同名文件，先比较版本和哈希，不要静默覆盖，不要自动运行。
 ```
 
 ## Agent 验收标准
 
 1. 从仓库最新 Release 获取资产，不从源码目录或第三方网盘获取。
-2. 下载 `视频管理助手.exe` 与 `SHA256SUMS.txt`。
+2. 下载 `Video-Management-Assistant.exe` 与 `SHA256SUMS.txt`。
 3. 计算 EXE 的 SHA-256，并与发布文件逐字比较。
 4. 使用系统 API 解析当前用户桌面位置，不写死 `C:\Users\某个用户名\Desktop`。
-5. 将验证通过的 EXE 保存为 `桌面\视频管理助手.exe`。
+5. 将验证通过的 EXE 重命名并保存为 `桌面\视频管理助手.exe`。
 6. 不自动运行；由用户首次双击启动。
 
 ## 为什么桌面上不是快捷方式

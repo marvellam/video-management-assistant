@@ -82,16 +82,16 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Build-Release.ps1 -Ski
 
 1. 执行 TypeScript、Rust test、fmt 与 clippy 检查。
 2. 使用 `tauri build --no-bundle` 构建原始 EXE。
-3. 发布 `视频管理助手.exe` 与 `SHA256SUMS.txt`。
+3. 发布 `Video-Management-Assistant.exe` 与 `SHA256SUMS.txt`。
 
 ## 让 Agent 安装到桌面
 
-便携 EXE 不会自行创建快捷方式，但 Agent 可以把 GitHub Release 中的 `视频管理助手.exe` 直接下载到当前用户桌面。桌面上的 EXE 本身就是可双击图标，不需要额外 `.lnk` 快捷方式。
+便携 EXE 不会自行创建快捷方式，但 Agent 可以下载 GitHub Release 中的 `Video-Management-Assistant.exe`，校验后以 `视频管理助手.exe` 保存到当前用户桌面。桌面上的 EXE 本身就是可双击图标，不需要额外 `.lnk` 快捷方式。
 
 把下面这句话直接发给能操作电脑的 Agent 即可：
 
 ```text
-请从 GitHub 仓库 marvellam/video-management-assistant 的最新 Release 下载“视频管理助手.exe”和 SHA256SUMS.txt，校验哈希后把 EXE 保存到当前用户桌面；不要自动运行。
+请从 GitHub 仓库 marvellam/video-management-assistant 的最新 Release 下载“Video-Management-Assistant.exe”和 SHA256SUMS.txt，校验哈希后以“视频管理助手.exe”保存到当前用户桌面；不要自动运行。
 ```
 
 详细步骤见 `AGENT_INSTALL.md`。
