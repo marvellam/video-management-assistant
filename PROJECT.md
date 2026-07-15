@@ -1,6 +1,6 @@
 # 视频管理助手项目记录
 
-最后更新：2026-07-14
+最后更新：2026-07-15
 
 ## 目标
 
@@ -15,10 +15,11 @@
 - 已存在的项目只补建缺失目录，不覆盖、移动或删除任何内容。
 - 正式图标方向已选定为 A“文件夹 + 目录树”。
 - 正式应用名称由“视频项目目录生成器”调整为“视频管理助手”。
-- 正式封装确定为 Tauri 2 Windows 便携 EXE，不生成安装包；用户可直接把 EXE 放到桌面运行。
+- 正式封装确定为 Tauri 2 双平台便携应用，不生成安装包；Windows 用户直接运行 EXE，Mac 用户解压后将 `.app` 放入“应用程序”。
 - PWA 因无法显示完整路径、无法生成后打开系统文件管理器而被否决。
 - PS2EXE 转壳因不符合正规桌面应用架构而撤销，相关产物和工具已清理。
-- TypeScript 界面、Rust 目录核心与模板保持跨平台边界，为以后单独构建 macOS `.app` 保留可能。
+- Windows 与 macOS 共享 TypeScript 界面、Rust 目录核心和模板；平台配置只处理窗口装饰与发布形式，不互相覆盖。
+- macOS 采用 Universal 2 构建，同一 ZIP 同时支持 Apple Silicon 与 Intel；当前使用 Ad-hoc 签名，不要求 Apple Developer Program。
 
 ## 交付物
 
@@ -28,10 +29,12 @@
 - `README.md`：使用方法、目录树和模板维护说明。
 - `ICON_OPTIONS.md`：应用图标候选与正式导出要求。
 - `DISTRIBUTION.md`：跨平台重构、安装包与 GitHub Releases 方案。
+- `MAC_INSTALL.md`：Mac 下载、校验、首次放行与 Agent 安装说明。
 - `src/`：正式 TypeScript 界面。
 - `src-tauri/`：正式 Rust/Tauri 应用与测试。
 - `Build-Release.ps1`：正规单文件 EXE 构建入口。
 - `release/视频管理助手.exe`：当前 Windows x64 正式便携产物。
+- GitHub Release：正式发布 `Video-Management-Assistant.exe`、`Video-Management-Assistant-macOS-universal.zip` 与统一校验文件。
 
 ## 已验证
 
@@ -74,23 +77,28 @@
 - GitHub 会把纯中文 Release 文件名规范化为 `default.exe`；正式发布资产因此固定为 `Video-Management-Assistant.exe`，Agent 校验后在桌面保存为 `视频管理助手.exe`。
 - 后续 GitHub 构建已加入 Rust 缓存并改为4并发；本机构建仍保持2并发，避免当前机器内存再次被打满。
 - v1.0.0 Release 链接已通过飞书发送给当前用户，并完成消息内容回读验证。
+- v1.1.0 双平台工作流已在 GitHub 的真实 Windows 与 macOS runner 上通过：类型检查、4 个 Rust 测试、fmt、clippy 和正式构建均成功。
+- Windows v1.1.0 产物为便携 EXE，窗口最小化和关闭已通过直接桌面回归测试。
+- macOS v1.1.0 产物为 Universal 2 `.app`；工作流用 `lipo` 同时验证 `arm64` 与 `x86_64`，并通过 `codesign --verify --deep --strict`。
+- Mac ZIP 已下载解包检查：应用名、显示名均为“视频管理助手”，版本 1.1.0，标识符为 `cn.yiyizhijian.video-management-assistant`，最低系统版本为 macOS 11.0。
+- 无开发者账号的边界已固定：Mac 版本可以公开下载和正常运行，但首次打开需要用户在“系统设置 → 隐私与安全性”中点击“仍要打开”；不自动移除隔离属性。
 
 ## 当前状态
 
-V2.0 Windows 便携 EXE 已完成。正式名称为“视频管理助手”，目录生成、重复运行、自动打开目录、最小化、关闭和公开下载校验均已通过。
+V2.1 Windows + macOS 双平台便携版已完成。正式名称为“视频管理助手”；Windows 保留独立 EXE，Mac 新增 Universal 2 `.app`，两个系统从同一个 GitHub Release 下载各自资产。
 
 公开仓库：`https://github.com/marvellam/video-management-assistant`
 
-v1.0.0 Release：`https://github.com/marvellam/video-management-assistant/releases/tag/v1.0.0`
+v1.1.0 Release：发布完成后固定为 `https://github.com/marvellam/video-management-assistant/releases/tag/v1.1.0`
 
 ## 待确认
 
 - 在团队实际 NAS 目录上试建一个测试项目，确认账号权限和路径长度。
 - 收集一位新同事对 V2.0 EXE 的首次运行、清晰度和界面文案反馈。
-- 等出现真实 macOS 使用需求后，再加入 `.app` 构建与签名决策。
+- 收集一台 Apple Silicon Mac 和一台 Intel Mac 的首次打开反馈；架构与签名已由 GitHub runner 自动验证。
 
 ## 风险与边界
 
 - 工具不会修改现有文件，但 NAS 账号必须具备目标路径的创建权限。
-- 当前 Windows EXE 未签名；跨公司或大范围分发时应考虑代码签名，减少 SmartScreen 提示。
+- 当前 Windows EXE 未签名，Mac `.app` 为 Ad-hoc 签名；跨公司或大范围分发时应考虑 Windows 代码签名和 Apple Developer ID + notarization，以减少系统安全提示。
 - 模板内名称发生变化时，应先在测试目录验证，再分发给团队。
