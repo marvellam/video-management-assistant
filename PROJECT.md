@@ -26,7 +26,8 @@
 - `启动目录生成器.cmd`：新同事双击入口。
 - `Generate-VideoProject.ps1`：图形界面、输入校验和生成核心。
 - `template.json`：固定目录与非目录命名说明。
-- `README.md`：使用方法、目录树和模板维护说明。
+- `README.md`：面向普通用户的下载、使用、目录树与首次运行说明。
+- `DEVELOPMENT.md`：面向开发者的技术结构、本机构建与 GitHub 发布说明。
 - `ICON_OPTIONS.md`：应用图标候选与正式导出要求。
 - `DISTRIBUTION.md`：跨平台重构、安装包与 GitHub Releases 方案。
 - `MAC_INSTALL.md`：Mac 下载、校验、首次放行与 Agent 安装说明。
@@ -84,6 +85,7 @@
 - 无开发者账号的边界已固定：Mac 版本可以公开下载和正常运行，但首次打开需要用户在“系统设置 → 隐私与安全性”中点击“仍要打开”；不自动移除隔离属性。
 - v1.1.0 已正式发布；从无需登录的 `releases/latest/download` 地址重新下载 Windows EXE、Mac ZIP 和 `SHA256SUMS.txt` 后，两份应用的 SHA-256 均与校验文件一致。
 - 公开下载的 Windows EXE 已再次验证版本为 1.1.0，可正常启动并响应关闭；公开 Mac ZIP 已再次解包读取 `Info.plist`，中文应用名、版本 1.1.0 与 macOS 11.0 最低系统要求正确。
+- GitHub 仓库首页确定为用户入口：README 只保留下载、使用、目录结构、首次运行和帮助入口，编译环境与发布流程集中到 `DEVELOPMENT.md`。
 
 ## 当前状态
 

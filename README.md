@@ -1,23 +1,32 @@
 # 视频管理助手
 
-替代已下架 Gate 软件中团队实际使用的“标准目录一键生成”能力。正式版使用 Tauri 2 构建，支持 Windows 与 macOS。
+一键创建标准的视频项目目录，让素材、工程文件、字幕和成片从一开始就保持清晰。
 
 ![界面预览](assets/interface-preview.png)
 
-## 下载与使用
+## 下载
 
-正式下载：[GitHub 最新版本](https://github.com/marvellam/video-management-assistant/releases/latest)
+| 系统 | 下载 | 使用方式 |
+| --- | --- | --- |
+| Windows 10 / 11 | [下载 Windows 版](https://github.com/marvellam/video-management-assistant/releases/latest/download/Video-Management-Assistant.exe) | 下载后直接双击 |
+| macOS 11 或更高版本 | [下载 Mac 版](https://github.com/marvellam/video-management-assistant/releases/latest/download/Video-Management-Assistant-macOS-universal.zip) | 解压后移入“应用程序” |
 
-1. Windows 下载 `Video-Management-Assistant.exe`；macOS 下载 `Video-Management-Assistant-macOS-universal.zip`。
-2. Windows 可直接双击；Mac 解压后将“视频管理助手.app”放入“应用程序”。
-3. 填写项目名称与日期，选择保存位置。
-4. 保持“生成后打开项目目录”勾选，点击“生成目录”。
+Mac 版同时支持 Apple 芯片和 Intel。普通用户不需要安装 Node.js、Rust、Visual Studio 或 Xcode。
 
-根目录格式为 `日期_项目名称`，例如 `20260714_常彧老师播客`。
+需要核验文件时，可下载 [SHA-256 校验文件](https://github.com/marvellam/video-management-assistant/releases/latest/download/SHA256SUMS.txt)。
 
-如果项目目录已经存在，工具只补建缺失目录，不覆盖、移动或删除任何已有内容。
+## 使用
 
-## 当前目录模板
+1. 填写项目名称与日期。
+2. 选择保存位置。
+3. 保持“生成后打开项目目录”勾选。
+4. 点击“生成目录”。
+
+项目根目录格式为 `日期_项目名称`，例如 `20260714_常彧老师播客`。
+
+如果目录已经存在，软件只补建缺失文件夹，不会覆盖、移动或删除已有内容。
+
+## 生成的目录
 
 ```text
 日期_项目名称
@@ -43,60 +52,15 @@
 └─ 8.归档
 ```
 
-以下内容是人工文件命名规则，不会创建为文件夹：
+原始视频、小样和成片的命名示例只是提醒，不会被创建为文件夹。
 
-- 原始视频：`时间_机型_机位`
-- 小样：`时间_片名_导出人_版本数`
-- 成片：`时间_片名_分辨率_格式_备注_导出人_版本数`
+## 首次运行
 
-## 技术结构
+- Windows：当前版本未做代码签名，系统可能显示 SmartScreen 提示。确认文件来自本仓库后，选择“更多信息 → 仍要运行”。
+- Mac：首次打开可能提示无法验证开发者。前往“系统设置 → 隐私与安全性”，找到“视频管理助手”并选择“仍要打开”。详见 [Mac 安装说明](MAC_INSTALL.md)。
 
-- `src/`：TypeScript 界面与窗口交互。
-- `src-tauri/`：Rust 文件系统核心与 Tauri 配置。
-- `template.json`：目录结构唯一真源，编译时嵌入 EXE。
-- `Generate-VideoProject.ps1`：已验证的旧 Windows 原型，暂时保留作行为对照。
-- `Build-Release.ps1`：本机构建、检查与正式产物归档。
-- `src-tauri/tauri.macos.conf.json`：macOS 原生窗口与 Ad-hoc 签名配置。
-- `.github/workflows/release.yml`：GitHub 标签触发后自动发布 Windows EXE 与 macOS 通用应用。
+## 让 Agent 帮你安装
 
-macOS 产物是同时支持 Apple Silicon 与 Intel 的通用应用，并采用 Ad-hoc 签名。首次打开需要用户在“系统设置 → 隐私与安全性”中点击“仍要打开”，详见 [MAC_INSTALL.md](MAC_INSTALL.md)。
+把本仓库链接发给能操作电脑的 Agent，并让它下载与你系统对应的最新 Release。Windows 的完整验收要求见 [Agent 安装说明](AGENT_INSTALL.md)，Mac 见 [Mac 安装说明](MAC_INSTALL.md)。
 
-## 本机构建
-
-本机需要 Node.js、Rust stable 与 Visual Studio 2022 C++ Build Tools。
-
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Build-Release.ps1
-```
-
-默认使用2个 Rust 编译任务，兼顾速度与当前机器的内存压力。首次构建需要编译 Tauri 依赖，之后会复用 Cargo 缓存。
-
-只重建、不重复完整检查：
-
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Build-Release.ps1 -SkipChecks
-```
-
-## GitHub 发布
-
-推送 `v*` 标签后，GitHub Actions 会：
-
-1. 分别在 Windows 与 macOS runner 执行 TypeScript、Rust test、fmt 与 clippy 检查。
-2. 构建 Windows 便携 EXE 和 Ad-hoc 签名的 macOS Universal App。
-3. 发布两个平台的应用与统一的 `SHA256SUMS.txt`。
-
-## 让 Agent 安装到桌面
-
-便携 EXE 不会自行创建快捷方式，但 Agent 可以下载 GitHub Release 中的 `Video-Management-Assistant.exe`，校验后以 `视频管理助手.exe` 保存到当前用户桌面。桌面上的 EXE 本身就是可双击图标，不需要额外 `.lnk` 快捷方式。
-
-把下面这句话直接发给能操作电脑的 Agent 即可：
-
-```text
-请从 GitHub 仓库 marvellam/video-management-assistant 的最新 Release 下载“Video-Management-Assistant.exe”和 SHA256SUMS.txt，校验哈希后以“视频管理助手.exe”保存到当前用户桌面；不要自动运行。
-```
-
-详细步骤见 `AGENT_INSTALL.md`。
-
-当前 EXE 未做代码签名，其他电脑首次下载时可能出现 Windows SmartScreen 提示；这与参考项目 `codex-switch` 当前的发布方式一致。
-
-本项目采用 [MIT License](LICENSE)。
+开发、构建和发布说明见 [DEVELOPMENT.md](DEVELOPMENT.md)。本项目采用 [MIT License](LICENSE)。
