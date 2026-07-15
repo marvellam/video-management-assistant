@@ -41,6 +41,10 @@ const elements = {
 const appWindow = getCurrentWindow();
 let template: ProjectTemplate;
 
+if (import.meta.env.VITE_TARGET_PLATFORM === "macos") {
+  document.documentElement.classList.add("platform-macos");
+}
+
 function todayStamp(): string {
   const today = new Date();
   return [

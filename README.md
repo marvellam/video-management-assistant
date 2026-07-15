@@ -1,6 +1,6 @@
 # 视频管理助手
 
-替代已下架 Gate 软件中团队实际使用的“标准目录一键生成”能力。正式版使用 Tauri 2 构建为 Windows 便携 EXE：无需安装，双击即可运行。
+替代已下架 Gate 软件中团队实际使用的“标准目录一键生成”能力。正式版使用 Tauri 2 构建，支持 Windows 与 macOS。
 
 ![界面预览](assets/interface-preview.png)
 
@@ -8,8 +8,8 @@
 
 正式下载：[GitHub 最新版本](https://github.com/marvellam/video-management-assistant/releases/latest)
 
-1. 把 EXE 下载或复制到本机，也可以直接放到桌面。
-2. 双击打开。
+1. Windows 下载 `Video-Management-Assistant.exe`；macOS 下载 `Video-Management-Assistant-macOS-universal.zip`。
+2. Windows 可直接双击；Mac 解压后将“视频管理助手.app”放入“应用程序”。
 3. 填写项目名称与日期，选择保存位置。
 4. 保持“生成后打开项目目录”勾选，点击“生成目录”。
 
@@ -56,9 +56,10 @@
 - `template.json`：目录结构唯一真源，编译时嵌入 EXE。
 - `Generate-VideoProject.ps1`：已验证的旧 Windows 原型，暂时保留作行为对照。
 - `Build-Release.ps1`：本机构建、检查与正式产物归档。
-- `.github/workflows/release.yml`：GitHub 标签触发后自动发布单个 Windows EXE。
+- `src-tauri/tauri.macos.conf.json`：macOS 原生窗口与 Ad-hoc 签名配置。
+- `.github/workflows/release.yml`：GitHub 标签触发后自动发布 Windows EXE 与 macOS 通用应用。
 
-界面与核心逻辑不依赖 Windows 专属 API；后续如需要 macOS，可在 macOS runner 上构建 `.app`，无需重写业务逻辑。
+macOS 产物是同时支持 Apple Silicon 与 Intel 的通用应用，并采用 Ad-hoc 签名。首次打开需要用户在“系统设置 → 隐私与安全性”中点击“仍要打开”，详见 [MAC_INSTALL.md](MAC_INSTALL.md)。
 
 ## 本机构建
 
@@ -80,9 +81,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Build-Release.ps1 -Ski
 
 推送 `v*` 标签后，GitHub Actions 会：
 
-1. 执行 TypeScript、Rust test、fmt 与 clippy 检查。
-2. 使用 `tauri build --no-bundle` 构建原始 EXE。
-3. 发布 `Video-Management-Assistant.exe` 与 `SHA256SUMS.txt`。
+1. 分别在 Windows 与 macOS runner 执行 TypeScript、Rust test、fmt 与 clippy 检查。
+2. 构建 Windows 便携 EXE 和 Ad-hoc 签名的 macOS Universal App。
+3. 发布两个平台的应用与统一的 `SHA256SUMS.txt`。
 
 ## 让 Agent 安装到桌面
 

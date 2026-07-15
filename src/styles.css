@@ -65,6 +65,14 @@ button {
   display: flex;
 }
 
+.platform-macos .window-actions {
+  display: none;
+}
+
+.platform-macos .title-bar {
+  justify-content: flex-start;
+}
+
 .window-button {
   width: 46px;
   height: 100%;
