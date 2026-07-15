@@ -49,6 +49,8 @@ VITE_TARGET_PLATFORM=macos npm run tauri -- build --target universal-apple-darwi
 3. 验证 Mac 的 `arm64`、`x86_64` 架构和 Ad-hoc 签名。
 4. 在同一个 Release 发布两个平台的应用与 `SHA256SUMS.txt`。
 
+Release 的用户说明以 `.github/RELEASE_NOTES.md` 为模板，不自动展示提交记录；修改下载方式或首次运行要求时，应同步更新该文件。
+
 正式资产名称固定为：
 
 - `Video-Management-Assistant.exe`

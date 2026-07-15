@@ -124,6 +124,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v4
         with:
           path: release
@@ -137,5 +139,6 @@ jobs:
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          generate_release_notes: true
+          name: 视频管理助手 ${{ github.ref_name }}
+          body_path: .github/RELEASE_NOTES.md
           files: release/*
