@@ -86,6 +86,7 @@
 - v1.1.0 已正式发布；从无需登录的 `releases/latest/download` 地址重新下载 Windows EXE、Mac ZIP 和 `SHA256SUMS.txt` 后，两份应用的 SHA-256 均与校验文件一致。
 - 公开下载的 Windows EXE 已再次验证版本为 1.1.0，可正常启动并响应关闭；公开 Mac ZIP 已再次解包读取 `Info.plist`，中文应用名、版本 1.1.0 与 macOS 11.0 最低系统要求正确。
 - GitHub 仓库首页确定为用户入口：README 只保留下载、使用、目录结构、首次运行和帮助入口，编译环境与发布流程集中到 `DEVELOPMENT.md`。
+- GitHub Release 使用 `.github/RELEASE_NOTES.md` 生成面向普通用户的固定说明，不再默认展示提交记录和开发变更。
 
 ## 当前状态
 
