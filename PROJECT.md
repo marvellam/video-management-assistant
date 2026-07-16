@@ -93,14 +93,17 @@
 - 自定义模板校验覆盖最多 8 层、200 个文件夹、同级重名和跨平台非法名称；8 个 Rust 测试已通过。
 - Windows 桌面实测完成：新建“播客项目模板”，保存并重启后仍可选中；上移/下移顺序生效；实际生成结果严格包含 `1.录音工程/原始音频` 与 `2.剪辑工程`，未混入官方目录。
 - 用户完成 v1.2.0 本地试用并确认功能无异常，同意同步更新 Windows 与 macOS 双平台正式版本。
+- v1.2.0 GitHub Actions 三个任务全部成功：Windows、macOS Universal 与 Release 发布；Mac 构建用 `lipo` 验证 `arm64` 和 `x86_64`，Ad-hoc 签名检查通过。
+- v1.2.0 公开资产已从无需登录的 Release 地址下载回验：Windows EXE 版本与产品名正确，Mac App 中文显示名、版本 1.2.0、最低 macOS 11.0 与应用标识符正确。
+- v1.2.0 公开 Windows EXE 的 SHA-256 为 `ece88789e7434312c2d5a864a7b4e799d77f1498e9c4f589c486cd3436d574ca`；Mac Universal ZIP 为 `67e3b76da38974e8c01d287935bf45639d0c1b651734d86456b753da6d881c02`，均与 `SHA256SUMS.txt` 一致。
 
 ## 当前状态
 
-v1.1.0 Windows + macOS 双平台便携版仍是 GitHub 当前正式版。v1.2.0 自定义模板功能已完成本地实现、Windows 验证与用户试用确认，正在发布双平台版本，不覆盖彼此的系统资产。
+v1.2.0 Windows + macOS 双平台便携版已正式发布。Windows 保持独立 EXE，Mac 保持 Universal 2 `.app` ZIP；两个平台共享自定义模板功能，但各自下载对应系统资产。
 
 公开仓库：`https://github.com/marvellam/video-management-assistant`
 
-v1.1.0 Release：`https://github.com/marvellam/video-management-assistant/releases/tag/v1.1.0`
+v1.2.0 Release：`https://github.com/marvellam/video-management-assistant/releases/tag/v1.2.0`
 
 ## 待确认
 
