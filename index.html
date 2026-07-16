@@ -76,12 +76,70 @@
         </section>
 
         <section class="preview-card" aria-labelledby="previewTitle">
-          <span class="preview-label">生成预览</span>
+          <div class="preview-toolbar">
+            <span class="preview-label">生成预览</span>
+            <div class="template-control">
+              <select id="templateSelect" aria-label="目录模板"></select>
+              <button id="editTemplateButton" type="button">设计模板</button>
+            </div>
+          </div>
           <h2 id="previewTitle">20260714_项目名称</h2>
           <div class="preview-divider" aria-hidden="true"></div>
           <pre id="treePreview" class="tree-preview" aria-label="目录结构预览"></pre>
         </section>
       </main>
+    </div>
+
+    <div id="templateModal" class="template-modal" hidden>
+      <div id="templateBackdrop" class="template-backdrop" aria-hidden="true"></div>
+      <section
+        class="template-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="templateDialogTitle"
+      >
+        <header class="template-dialog-header">
+          <div>
+            <span class="dialog-kicker">目录模板</span>
+            <h2 id="templateDialogTitle">设计自己的项目结构</h2>
+          </div>
+          <button id="closeTemplateButton" class="dialog-close" type="button" aria-label="关闭">
+            <span aria-hidden="true"></span>
+          </button>
+        </header>
+
+        <div class="template-create-actions">
+          <button id="duplicateOfficialButton" type="button">基于官方模板创建</button>
+          <button id="newBlankTemplateButton" type="button">新建空白模板</button>
+        </div>
+
+        <div class="template-name-row">
+          <div class="template-name-field">
+            <label for="templateName">模板名称</label>
+            <input id="templateName" type="text" maxlength="50" autocomplete="off" />
+          </div>
+          <span id="templateTypeBadge" class="template-type-badge">官方模板</span>
+        </div>
+
+        <div class="root-rule">项目根目录统一命名为：日期_项目名称</div>
+
+        <div id="templateTreeEditor" class="template-tree-editor"></div>
+
+        <div class="template-editor-footer">
+          <div class="editor-secondary-actions">
+            <button id="addRootFolderButton" type="button">＋ 添加一级目录</button>
+            <button id="deleteTemplateButton" class="danger-text-button" type="button">
+              删除模板
+            </button>
+          </div>
+          <div class="editor-primary-actions">
+            <p id="templateEditorStatus" role="status" aria-live="polite"></p>
+            <button id="saveTemplateButton" class="save-template-button" type="button">
+              保存模板
+            </button>
+          </div>
+        </div>
+      </section>
     </div>
 
     <script type="module" src="/src/main.ts"></script>

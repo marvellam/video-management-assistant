@@ -6,10 +6,13 @@
 
 - `src/`：TypeScript 界面与窗口交互。
 - `src-tauri/`：Rust 文件系统核心与 Tauri 配置。
-- `template.json`：目录结构唯一真源，编译时嵌入应用。
+- `template.json`：官方推荐模板的唯一真源，编译时嵌入应用且保持只读。
+- `templates.json`：用户在软件内保存的自定义模板，运行时写入 Tauri 应用配置目录，不进入仓库。
 - `src-tauri/tauri.macos.conf.json`：Mac 原生窗口与 Ad-hoc 签名配置。
 - `.github/workflows/release.yml`：Windows 与 Mac 自动构建和发布流程。
 - `Generate-VideoProject.ps1`：早期 Windows 原型，保留作行为对照。
+
+自定义模板由 Rust 层统一校验：最多 8 层、200 个文件夹，同级目录不能重名，并同时排除 Windows 与 macOS 不允许的路径名称。项目根目录固定使用 `日期_项目名称`，避免不同模板造成项目入口失去一致性。
 
 ## Windows 本机构建
 
